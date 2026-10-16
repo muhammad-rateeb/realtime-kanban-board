@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  MEMBER
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime      @default(now())
+  ownedBoards  Board[]       @relation("BoardOwner")
+  memberships  BoardMember[]
+}
+
+model Board {
+  id        String        @id @default(cuid())
+  title     String
+  owner     User          @relation("BoardOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  members   BoardMember[]
+  lists     List[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([ownerId])
+}
+
+model BoardMember {
+  id        String   @id @default(cuid())
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  role      Role     @default(MEMBER)
+  createdAt DateTime @default(now())
+
+  @@unique([boardId, userId])
+  @@index([userId])
+}
+
+model List {
+  id        String   @id @default(cuid())
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId   String
+  title     String
+  position  Float
+  cards     Card[]
+  createdAt DateTime @default(now())
+
+  @@index([boardId, position])
+}
+
+model Card {
+  id          String    @id @default(cuid())
+  list        List      @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId      String
+  title       String
+  description String?
+  dueDate     DateTime?
+  position    Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([listId, position])
+}
