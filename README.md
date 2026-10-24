@@ -31,7 +31,7 @@ A simplified Trello: multi-user boards with lists and cards, drag & drop, and in
 docker compose up --build
 ```
 
-Then open **http://localhost:5173** (client). API runs on **http://localhost:4000**, Postgres on **localhost:5433** (`kanban`/`kanban`; host port 5433 to avoid clashing with any local Postgres on 5432). The server applies Prisma migrations automatically at startup.
+Then open **http://localhost:5180** (client). API runs on **http://localhost:4000**, Postgres on **localhost:5433** (`kanban`/`kanban`; host port 5433 to avoid clashing with any local Postgres on 5432). The server applies Prisma migrations automatically at startup.
 
 Register two accounts in two browser windows, open the same board in both, and drag a card — the other window updates instantly.
 
@@ -58,7 +58,7 @@ Register two accounts in two browser windows, open the same board in both, and d
    ```bash
    cd client
    npm install
-   npm run dev            # http://localhost:5173
+   npm run dev            # http://localhost:5180
    ```
 
 ## Environment variables

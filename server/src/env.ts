@@ -5,7 +5,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   DATABASE_URL: z.string().min(1),
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
-  CLIENT_ORIGIN: z.string().default("http://localhost:5173"),
+  CLIENT_ORIGIN: z.string().default("http://localhost:5180"),
   NODE_ENV: z.string().default("development"),
 });
 
